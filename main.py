@@ -13,7 +13,9 @@ from tweepy import Stream
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        print(data)
+        #print data
+        with open('fetched_tweets.txt','a') as tf:
+            tf.write(data)
         return True
 
     def on_error(self, status):
@@ -28,4 +30,5 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords
-    stream.filter(track=['python'])
+    stream.filter(track=['python'], async=True)
+
