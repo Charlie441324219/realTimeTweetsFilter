@@ -38,25 +38,25 @@ class DataAnalysis:
 
         # lang column contains the language in which the tweet was written
         # country is the country from which the tweet was sent.
-        tweets['text'] = map(lambda tweet: tweet['text'], tweets_data)
-        tweets['lang'] = map(lambda tweet: tweet['lang'], tweets_data)
-        tweets['country'] = map(lambda tweet: tweet['place']['country'] if tweet['place'] != None else None,
-                                tweets_data)
+        tweets['text'] = list([tweet['text'] for tweet in tweets_data])
+        tweets['lang'] = list([tweet['lang'] for tweet in tweets_data])
+        tweets['country'] = list([tweet['place']['country'] if tweet['place'] != None else None for tweet in tweets_data])
 
         #top 5 languages in which the tweets were written, and the second the Top 5 countries from which the tweets were sent.
+        print('Analyzing tweets by language\n')
         tweets_by_lang = tweets['lang'].value_counts()
-
         fig, ax = plt.subplots()
         ax.tick_params(axis='x', labelsize=15)
         ax.tick_params(axis='y', labelsize=10)
         ax.set_xlabel('Languages', fontsize=15)
-        ax.set_ylabel('Number of tweets' , fontsize=15)
+        ax.set_ylabel('Number of tweets', fontsize=15)
         ax.set_title('Top 5 languages', fontsize=15, fontweight='bold')
         tweets_by_lang[:5].plot(ax=ax, kind='bar', color='red')
+        plt.savefig('tweet_by_lang', format='png')
 
         # top 5 countries
+        print('Analyzing tweets by country\n')
         tweets_by_country = tweets['country'].value_counts()
-
         fig, ax = plt.subplots()
         ax.tick_params(axis='x', labelsize=15)
         ax.tick_params(axis='y', labelsize=10)
@@ -64,15 +64,16 @@ class DataAnalysis:
         ax.set_ylabel('Number of tweets', fontsize=15)
         ax.set_title('Top 5 countries', fontsize=15, fontweight='bold')
         tweets_by_country[:5].plot(ax=ax, kind='bar', color='blue')
+        plt.savefig('tweet_by_country', format='png')
 
         tweets['python'] = tweets['text'].apply(lambda tweet: self.word_in_text('python', tweet))
         tweets['javascript'] = tweets['text'].apply(lambda tweet: self.word_in_text('javascript', tweet))
         tweets['ruby'] = tweets['text'].apply(lambda tweet: self.word_in_text('ruby', tweet))
 
         # print distribution of key words
-        print(tweets['python'].value_counts()[True])
-        print(tweets['javascript'].value_counts()[True])
-        print(tweets['ruby'].value_counts()[True])
+        print("tweets about python : ",tweets['python'].value_counts()[True])
+        print("tweets about javacript : ",tweets['javascript'].value_counts()[True])
+        print("tweets about ruby : ",tweets['ruby'].value_counts()[True])
 
         # draw distribution of key words
         prg_langs = ['python', 'javascript', 'ruby']
