@@ -91,3 +91,13 @@ class DataAnalysis:
         ax.set_xticks([p + 0.4 * width for p in x_pos])
         ax.set_xticklabels(prg_langs)
         plt.grid()
+
+        # Targeting relevant tweets
+        print('Targeting relevant tweets\n')
+        tweets['programming'] = tweets['text'].apply(lambda tweet: self.word_in_text('programming', tweet))
+        tweets['tutorial'] = tweets['text'].apply(lambda tweet: self.word_in_text('tutorial', tweet))
+        tweets['relevant'] = tweets['text'].apply(lambda tweet: self.word_in_text('programming', tweet) or self.word_in_text('tutorial', tweet))
+
+
+        # Analyzing Tweets by programming language: Second attempt
+        print('Analyzing tweets by programming language: First attempt\n')
