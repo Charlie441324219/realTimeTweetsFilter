@@ -1,4 +1,6 @@
 import json
+from aifc import Error
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
@@ -9,8 +11,6 @@ class DataAnalysis:
 
     def __init__(self, tweets_data_path):
         self.tweets_data_path = tweets_data_path
-
-    # tweets_data_path = 'E:\STADY\expasome\realTimeTweetsFilter\fetched_tweets.txt'
 
     def word_in_text(self, word, text):
         word = word.lower()
@@ -30,8 +30,9 @@ class DataAnalysis:
             except:
                 continue
 
-
-        print("The total number of lines in the file is = %s" % (len(tweets_data)))
+        print("================================================================")
+        print("The total number of tweets in the file is = %s" % (len(tweets_data)))
+        print("================================================================")
 
         # structure the tweets data into a pandas DataFrame to simplify the data manipulation
         tweets = pd.DataFrame()
@@ -42,62 +43,42 @@ class DataAnalysis:
         tweets['lang'] = list([tweet['lang'] for tweet in tweets_data])
         tweets['country'] = list([tweet['place']['country'] if tweet['place'] != None else None for tweet in tweets_data])
 
-        #top 5 languages in which the tweets were written, and the second the Top 5 countries from which the tweets were sent.
-        print('Analyzing tweets by language\n')
         tweets_by_lang = tweets['lang'].value_counts()
-        fig, ax = plt.subplots()
-        ax.tick_params(axis='x', labelsize=15)
-        ax.tick_params(axis='y', labelsize=10)
-        ax.set_xlabel('Languages', fontsize=15)
-        ax.set_ylabel('Number of tweets', fontsize=15)
-        ax.set_title('Top 5 languages', fontsize=15, fontweight='bold')
-        tweets_by_lang[:5].plot(ax=ax, kind='bar', color='red')
-        plt.savefig('tweet_by_lang', format='png')
 
-        # top 5 countries
-        print('Analyzing tweets by country\n')
+        print("Top 5 languages in which the tweets were written : ")
+        print(tweets_by_lang[:5])
+        print("================================================================")
+
         tweets_by_country = tweets['country'].value_counts()
-        fig, ax = plt.subplots()
-        ax.tick_params(axis='x', labelsize=15)
-        ax.tick_params(axis='y', labelsize=10)
-        ax.set_xlabel('Countries', fontsize=15)
-        ax.set_ylabel('Number of tweets', fontsize=15)
-        ax.set_title('Top 5 countries', fontsize=15, fontweight='bold')
-        tweets_by_country[:5].plot(ax=ax, kind='bar', color='blue')
-        plt.savefig('tweet_by_country', format='png')
 
-        tweets['python'] = tweets['text'].apply(lambda tweet: self.word_in_text('python', tweet))
-        tweets['javascript'] = tweets['text'].apply(lambda tweet: self.word_in_text('javascript', tweet))
-        tweets['ruby'] = tweets['text'].apply(lambda tweet: self.word_in_text('ruby', tweet))
+        print("Top 5 countries : ")
+        print(tweets_by_country[:5])
+        print("================================================================")
+
+        # keywords related to CVD
+        listCVD = ['cholesterol', 'EKG', 'Aneurysm' ,'Angina' , 'Angiogenesis' ,'Coronary Arteries',
+                   'Coronary' , 'LDL' , 'HDL' , 'bypass surgery' , 'steats' ,'high sugar level',
+                   'chest pain', 'chest pressure', 'difficulty breathing', 'heart attack', 'blood pressure', 'cardiac arrest',
+                   'Shooting left arm pain', 'arm pain', 'shooting pain', 'left arm tingling', 'shortness of breath']
+        # keywords reference to CVD_1
+        listCVD_1 = []
+        # keywords reference to CVD_2
+        listCVD_2 = []
+
+        #keywords related to CVD
+        itCVD = iter(listCVD)
+        for x in itCVD:
+            tweets[x] = tweets['text'].apply(lambda tweet: self.word_in_text(x, tweet))
 
         # print distribution of key words
-        print("tweets about python : ",tweets['python'].value_counts()[True])
-        print("tweets about javacript : ",tweets['javascript'].value_counts()[True])
-        print("tweets about ruby : ",tweets['ruby'].value_counts()[True])
-
-        # draw distribution of key words
-        prg_langs = ['python', 'javascript', 'ruby']
-        tweets_by_prg_lang = [tweets['python'].value_counts()[True], tweets['javascript'].value_counts()[True],
-                              tweets['ruby'].value_counts()[True]]
-
-        x_pos = list(range(len(prg_langs)))
-        width = 0.8
-        fig, ax = plt.subplots()
-        plt.bar(x_pos, tweets_by_prg_lang, width, alpha=1, color='g')
-
-        # Setting axis labels and ticks
-        ax.set_ylabel('Number of tweets', fontsize=15)
-        ax.set_title('Ranking: python vs. javascript vs. ruby (Raw data)', fontsize=10, fontweight='bold')
-        ax.set_xticks([p + 0.4 * width for p in x_pos])
-        ax.set_xticklabels(prg_langs)
-        plt.grid()
-
-        # Targeting relevant tweets
-        print('Targeting relevant tweets\n')
-        tweets['programming'] = tweets['text'].apply(lambda tweet: self.word_in_text('programming', tweet))
-        tweets['tutorial'] = tweets['text'].apply(lambda tweet: self.word_in_text('tutorial', tweet))
-        tweets['relevant'] = tweets['text'].apply(lambda tweet: self.word_in_text('programming', tweet) or self.word_in_text('tutorial', tweet))
+        # keywords related to CVD
+        itCVD = iter(listCVD)
+        for x in itCVD:
+            try:
+                temp = tweets[x].value_counts()[True]
+            except KeyError:
+                temp = 0
+            print("tweets about", x, " : ", temp)
+            print("------------------------------------------")
 
 
-        # Analyzing Tweets by programming language: Second attempt
-        print('Analyzing tweets by programming language: First attempt\n')
