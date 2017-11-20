@@ -17,13 +17,26 @@ class DataAnalysis:
             return True
         return False
 
+    def get_city(tweet):
+        if 'place' not in tweet:
+            return "no_city"
+        elif 'place_type' not in tweet['place']:
+            return "no_city"
+        elif tweet['place']['place_type'] != u'city':
+            return "no_city"
+
+        return tweet['place']['name']
+
     def readFile(self):
         tweets_data = []
+        tweets_city = []
         tweets_file = open(self.tweets_data_path, "r")
         for line in tweets_file:
             try:
+
                 tweet = json.loads(line)
-                tweets_data.append(tweet)
+                if tweet['place']['place_type'] == 'city':
+                    tweets_data.append(tweet)
             except:
                 continue
 
@@ -36,9 +49,10 @@ class DataAnalysis:
 
         # lang column contains the language in which the tweet was written
         # country is the country from which the tweet was sent.
-        tweets['text'] = list([tweet['text'] for tweet in tweets_data])
-        tweets['lang'] = list([tweet['lang'] for tweet in tweets_data])
-        tweets['country'] = list([tweet['place']['country'] if tweet['place'] != None else None for tweet in tweets_data])
+        tweets['text'] = list(map(lambda tweet: tweet['text'], tweets_data))
+        tweets['lang'] = list(map(lambda tweet: tweet['lang'], tweets_data))
+        tweets['country'] = list(map(lambda tweet: tweet['place']['country'] if tweet['place'] != None else None,tweets_data))
+        tweets['city'] = list(map(lambda tweet: tweet['place']['name'] if tweet['place'] != None else None,tweets_data))
 
         tweets_by_lang = tweets['lang'].value_counts()
 
@@ -50,6 +64,12 @@ class DataAnalysis:
 
         print("Top 5 countries : ")
         print(tweets_by_country[:5])
+        print("================================================================")
+
+        tweets_by_city = tweets['city'].value_counts()
+
+        print("Top 5 city : ")
+        print(tweets_by_city[:5])
         print("================================================================")
 
         # keywords related to CVD
