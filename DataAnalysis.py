@@ -17,26 +17,21 @@ class DataAnalysis:
             return True
         return False
 
-    def get_city(tweet):
-        if 'place' not in tweet:
-            return "no_city"
-        elif 'place_type' not in tweet['place']:
-            return "no_city"
-        elif tweet['place']['place_type'] != u'city':
-            return "no_city"
-
-        return tweet['place']['name']
-
     def readFile(self):
         tweets_data = []
-        tweets_city = []
         tweets_file = open(self.tweets_data_path, "r")
+
+        texas = {"DallasCounty":{"Carrollton","Cedar Hill","Combine","Coppell","Dallas","Ferris","Garland","Glenn Heights","Grand Prairie","Grapevine","Lewisville","Mesquite","Ovilla","Richardson","Rowlett","Sachse","Seagoville","Wylie"},
+                 "LubbockCounty":{"Abernathy","Idalou","Lubbock","Shallowater","Slaton","Wolfforth"}}
         for line in tweets_file:
             try:
 
                 tweet = json.loads(line)
-                if tweet['place']['place_type'] == 'city':
+                if tweet['place']['place_type'] == 'city' and tweet['place']['name'] in texas['DallasCounty']:
                     tweets_data.append(tweet)
+
+                    # tweet = json.loads(line)
+                    # tweets_data.append(tweet)
             except:
                 continue
 
@@ -96,6 +91,6 @@ class DataAnalysis:
             except KeyError:
                 temp = 0
             print("tweets about", x, " : ", temp)
-            print("------------------------------------------")
+        print("================================================================")
 
 

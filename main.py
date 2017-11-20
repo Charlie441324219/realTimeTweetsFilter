@@ -35,9 +35,12 @@ if __name__ == '__main__':
     # stream = Stream(auth, l)
     #
     # # keywords for filter
-    # keywords = ['cholesterol', 'EKG', 'Aneurys' ,'Angina', 'Angiogenesis' ,'Coronary Arteries', 'Coronary' , 'LDL' , 'HDL' , 'bypass surgery' , 'steats' ,'high sugar level',
-    #                      'chest pain', 'chest pressure', 'difficulty breathing', 'heart attack', 'blood pressure', 'cardiac arrest',
-    #                      'Shooting left arm pain', 'arm pain', 'shooting pain', 'left arm tingling', 'shortness of breath']
+    # # keywords = ['cholesterol', 'EKG', 'aneurys' ,'angina', 'angiogenesis' ,'coronary arteries',
+    # #             'coronary' , 'LDL' , 'HDL' , 'bypass surgery' , 'steats' ,'high sugar level',
+    # #             'chest pain', 'chest pressure', 'difficulty breathing', 'heart attack', 'blood pressure', 'cardiac arrest',
+    # #             'Shooting left arm pain', 'arm pain', 'shooting pain', 'left arm tingling', 'shortness of breath']
+    #
+    # # keywords = ["cholesterol", "EKG"]
     #
     # # Bounding boxes:
     # northeast = [-78.44,40.88,-66.97,47.64]
@@ -45,7 +48,7 @@ if __name__ == '__main__':
     # california = [-124.63,32.44,-113.47,42.2]
     #
     # #This line filter Twitter Streams to capture data by the keywords
-    # stream.filter(track = keywords,locations = texas, async=True)
+    # stream.filter(languages=["en"],locations = texas, async=True)
 
     tweets_data_path = 'E:\\STADY\\expasome\\realTimeTweetsFilter\\fetched_tweets.txt'
 
