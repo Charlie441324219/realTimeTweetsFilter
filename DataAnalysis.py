@@ -21,6 +21,11 @@ class DataAnalysis:
         tweets_data = []
         tweets_file = open(self.tweets_data_path, "r")
 
+        geo_data = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+
         texas = {"DallasCounty":{"Carrollton","Cedar Hill","Combine","Coppell","Dallas","Ferris","Garland","Glenn Heights","Grand Prairie","Grapevine","Lewisville","Mesquite","Ovilla","Richardson","Rowlett","Sachse","Seagoville","Wylie"},
                  "LubbockCounty":{"Abernathy","Idalou","Lubbock","Shallowater","Slaton","Wolfforth"}}
         for line in tweets_file:
@@ -32,8 +37,24 @@ class DataAnalysis:
 
                     # tweet = json.loads(line)
                     # tweets_data.append(tweet)
+
+                if tweet['coordinates']:
+                    geo_json_feature = {
+                        "type": "Feature",
+                        "geometry": tweet['coordinates'],
+                        "properties": {
+                            "text": tweet['text'],
+                            "created_at": tweet['created_at']
+                        }
+                    }
+                    geo_data['features'].append(geo_json_feature)
+
             except:
                 continue
+
+        # Save geo data
+        with open('geo_data.json', 'w') as fout:
+            fout.write(json.dumps(geo_data, indent=4))
 
         print("================================================================")
         print("The total number of tweets in the file is = %s" % (len(tweets_data)))
