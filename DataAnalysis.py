@@ -1,6 +1,8 @@
 import json
 import pandas as pd
 import re
+import geopy
+from geopy.geocoders import Nominatim, GoogleV3
 
 
 class DataAnalysis:
@@ -113,5 +115,6 @@ class DataAnalysis:
                 temp = 0
             print("tweets about", x, " : ", temp)
         print("================================================================")
+
 
 
