@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5198ae-554c-4b17-a2bb-bbe85a6401ed" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/DataAnalysis.py" afterPath="$PROJECT_DIR$/DataAnalysis.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,7 +55,7 @@
       <file leaf-file-name="mymap.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mymap.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
+            <state relative-caret-position="43">
               <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
               <folding>
                 <marker date="1519762849201" expanded="true" signature="579:585" ph="©" />
@@ -232,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519749670157</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="insert map">
+      <created>1519763137663</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1519763137663</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -281,7 +287,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update link" />
     <MESSAGE value="extract geo data" />
-    <option name="LAST_COMMIT_MESSAGE" value="extract geo data" />
+    <MESSAGE value="insert map" />
+    <option name="LAST_COMMIT_MESSAGE" value="insert map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -535,7 +542,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mymap.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
+        <state relative-caret-position="43">
           <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
           <folding>
             <marker date="1519762849201" expanded="true" signature="579:585" ph="©" />
